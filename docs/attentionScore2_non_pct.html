@@ -56,7 +56,7 @@
           x: x,
           y: y,
           type: 'heatmap',
-          colorscale: 'YlGnBu',
+          colorscale: 'YlGnBu'.split('').reverse().join(''), // Reversed colorscale
           hoverongaps: false,
           showscale: true,
           zsmooth: false

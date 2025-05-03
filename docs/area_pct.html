@@ -32,7 +32,7 @@
 
         const x = rows[0].slice(1); // Column headers
         const y = rows.slice(1).map(row => row[0]); // Row headers
-        const z = rows.slice(1).map(row => row.slice(1).map(val => val == null || isNaN(val) ? 0 : val)); // Heatmap data
+        const z = rows.slice(1).map(row => row.slice(1).map(val => val == null || isNaN(val) ? 0 : parseFloat(val.toFixed(2))));
 
         const annotations = [];
         for (let i = 0; i < y.length; i++) {

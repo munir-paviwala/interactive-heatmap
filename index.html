@@ -22,7 +22,6 @@
   <div id="heatmap"></div>
 
   <script>
-    // Replace this URL with your actual hosted CSV file URL
     const csvUrl = 'Area_non_percent.csv';
 
     fetch(csvUrl)
@@ -35,24 +34,74 @@
         const y = rows.slice(1).map(row => row[0]); // Row headers
         const z = rows.slice(1).map(row => row.slice(1)); // Heatmap data
 
+        const annotations = [];
+        for (let i = 0; i < y.length; i++) {
+          for (let j = 0; j < x.length; j++) {
+            annotations.push({
+              x: x[j],
+              y: y[i],
+              text: String(z[i][j]),
+              font: {
+                color: 'black',
+                size: 10
+              },
+              showarrow: false
+            });
+          }
+        }
+
         const trace = {
           z: z,
           x: x,
           y: y,
           type: 'heatmap',
-          colorscale: 'Viridis',
-          hoverongaps: false
+          colorscale: 'YlGnBu',
+          hoverongaps: false,
+          showscale: true,
+          zsmooth: false
         };
 
         const layout = {
-          title: 'Interactive Heatmap',
-          xaxis: { title: 'Columns', automargin: true },
-          yaxis: { title: 'Rows', automargin: true },
-          margin: { l: 100, r: 50, b: 100, t: 50 },
-          dragmode: 'pan'
+          title: 'Title of the Chart here',
+          xaxis: {
+            title: '',
+            automargin: true,
+            tickangle: -45,
+            side: 'bottom',
+            ticks: 'outside'
+          },
+          yaxis: {
+            title: 'Term',
+            automargin: true,
+            ticks: 'outside'
+          },
+          margin: { l: 150, r: 30, b: 150, t: 60 },
+          annotations: annotations,
+          dragmode: 'pan',
+          plot_bgcolor: '#fff',
+          paper_bgcolor: '#fff',
+          shapes: []
         };
 
-        Plotly.newPlot('heatmap', [trace], layout, {responsive: true});
+        // Add grid lines manually to enhance separation
+        for (let i = 1; i < x.length; i++) {
+          layout.shapes.push({
+            type: 'line',
+            x0: x[i], x1: x[i], y0: y[0], y1: y[y.length - 1],
+            line: { color: 'rgba(0,0,0,0.1)', width: 1 },
+            xref: 'x', yref: 'y'
+          });
+        }
+        for (let j = 1; j < y.length; j++) {
+          layout.shapes.push({
+            type: 'line',
+            x0: x[0], x1: x[x.length - 1], y0: y[j], y1: y[j],
+            line: { color: 'rgba(0,0,0,0.1)', width: 1 },
+            xref: 'x', yref: 'y'
+          });
+        }
+
+        Plotly.newPlot('heatmap', [trace], layout, { responsive: true });
       });
   </script>
 </body>

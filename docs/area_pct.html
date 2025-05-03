@@ -38,14 +38,7 @@
         for (let i = 0; i < y.length; i++) {
           for (let j = 0; j < x.length; j++) {
             const value = z[i][j];            
-            annotations.push({
-              x: x[j],
-              y: y[i],
-              text: String(z[i][j]),
-              font: {
-                color: value > 40 ? 'white' : 'black',
-                size: 10
-              },
+            annotations.push({x: x[j],  y: y[i], text: value.toFixed(2) + '%', font: {color: value > 40 ? 'white' : 'black',size: 10},
               showarrow: false
             });
           }
